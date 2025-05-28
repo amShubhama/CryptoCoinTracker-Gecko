@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Banner from "../Banner/Banner";
 import CoinTable from "../CoinTable/CoinTable";
 import Navbar from "../Navbar/Navbar";
+import { CurrencyContext } from "../../context/CurrencyContext";
 
 function Home() {
-    const [currency, setCurrency] = useState('usd');
     return (
         <>
-            <Navbar setCurrency={setCurrency} />
+            <Navbar />
             <Banner />
-            <CoinTable currency={currency} />
+            <CoinTable />
         </>
     )
 }

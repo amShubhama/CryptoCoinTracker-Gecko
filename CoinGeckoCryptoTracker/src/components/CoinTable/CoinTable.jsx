@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchCoinData } from "../../services/fetchCoinData";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { CurrencyContext } from "../../context/CurrencyContext";
 
-function CoinTable({ currency }) {
+function CoinTable() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
+    const { currency } = useContext(CurrencyContext);
     const { data, isLoading, isPending, isError, error } = useQuery({
         queryKey: ['coins', page, currency],
         queryFn: () => fetchCoinData(page, currency),
@@ -25,7 +27,7 @@ function CoinTable({ currency }) {
         return (
             <>
                 <div className="m-1">
-                    <div className="flex justify-between p-2 text-2xl">
+                    <div className="flex justify-between p-2 text-2xl bg-amber-600">
                         <span>Symbol</span>
                         <span>Name</span>
                         <span>Price</span>
