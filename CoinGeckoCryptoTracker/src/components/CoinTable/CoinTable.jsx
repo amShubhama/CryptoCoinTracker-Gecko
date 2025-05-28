@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { fetchCoinData } from "../../services/fetchCoinData";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { CurrencyContext } from "../../context/CurrencyContext";
-
+// import { CurrencyContext } from "../../context/CurrencyContext";
+import currencyStore from '../../state/store'
 function CoinTable() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { currency } = useContext(CurrencyContext);
+    const { currency } = currencyStore();
     const { data, isLoading, isPending, isError, error } = useQuery({
         queryKey: ['coins', page, currency],
         queryFn: () => fetchCoinData(page, currency),
@@ -46,8 +46,8 @@ function CoinTable() {
             </>
         )
     }
-    if (Error) {
-        console.log(Error);
+    if (error) {
+        console.log(error);
 
         return (
             <>

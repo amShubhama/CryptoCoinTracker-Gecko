@@ -9,11 +9,11 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <CurrencyContextProvider>
-        <StrictMode>
-          <App />
-        </StrictMode>
-      </CurrencyContextProvider>
+      {/* <CurrencyContextProvider> */}
+      <StrictMode>
+        <App />
+      </StrictMode>
+      {/* </CurrencyContextProvider> */}
     </BrowserRouter>
   </QueryClientProvider>
 )
