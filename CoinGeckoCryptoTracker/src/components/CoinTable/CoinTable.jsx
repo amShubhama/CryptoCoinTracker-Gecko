@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { fetchCoinData } from "../../services/fetchCoinData";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-
-
-function CoinTable() {
+function CoinTable({ currency }) {
     const [page, setPage] = useState(1);
-    const [coinData, setCoinData] = useState([]);
+    const navigate = useNavigate();
     const { data, isLoading, isPending, isError, error } = useQuery({
-        queryKey: ['coins', page],
-        queryFn: () => fetchCoinData(page, 'usd'),
+        queryKey: ['coins', page, currency],
+        queryFn: () => fetchCoinData(page, currency),
         retry: 2,
         retryDelay: 1000,
         cacheTime: 1000 * 60 * 2,
@@ -23,7 +22,6 @@ function CoinTable() {
     }
     if (data) {
         const coinData = data.data;
-        console.log(coinData);
         return (
             <>
                 <div className="m-1">
@@ -35,7 +33,7 @@ function CoinTable() {
                     {coinData.map((ele, index) =>
                         <div className="border border-amber-10 cursor-pointer my-2 flex justify-between items-center gap-1 p-2"
                             key={index}
-                            onClick={() => console.log(ele.id)}
+                            onClick={() => navigate('/coin_details')}
                         >
                             <img className="w-20 h-20" src={ele.image} alt="" />
                             <h1 className="text-2xl capitalize">{ele.id}</h1>
@@ -43,6 +41,15 @@ function CoinTable() {
                         </div>
                     )}
                 </div>
+            </>
+        )
+    }
+    if (Error) {
+        console.log(Error);
+
+        return (
+            <>
+                <div>Failed to load information try after some time...</div>
             </>
         )
     }
