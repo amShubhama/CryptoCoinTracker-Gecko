@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 // import { CurrencyContext } from '../../context/CurrencyContext'
 import currencyStore from '../../state/store'
 const Navbar = () => {
-  const { setCurrency } = currencyStore();
+  const { setCurrency, currency } = currencyStore();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -17,6 +17,7 @@ const Navbar = () => {
             <li onClick={() => setCurrency('usd')}><a>USD</a></li>
           </ul>
         </div>
+        {currency.toUpperCase()}
       </div>
       <div className="navbar-center">
         <a href='/' className="btn btn-ghost text-xl">CryptoTracker</a>

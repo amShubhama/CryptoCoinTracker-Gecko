@@ -15,46 +15,66 @@ function CoinTable() {
         retryDelay: 1000,
         cacheTime: 1000 * 60 * 2,
     });
-    if (isLoading) {
-        return (
-            <>
-                <div>Loading...</div>
-            </>
-        )
-    }
-    if (data) {
-        const coinData = data.data;
-        return (
-            <>
-                <div className="m-1">
-                    <div className="flex justify-between p-2 text-2xl bg-amber-600">
-                        <span>Symbol</span>
-                        <span>Name</span>
-                        <span>Price</span>
-                    </div>
-                    {coinData.map((ele, index) =>
-                        <div className="border border-amber-10 cursor-pointer my-2 flex justify-between items-center gap-1 p-2"
-                            key={index}
-                            onClick={() => navigate('/coin_details')}
-                        >
-                            <img className="w-20 h-20" src={ele.image} alt="" />
-                            <h1 className="text-2xl capitalize">{ele.id}</h1>
-                            <h1 className="text-2xl">{ele.current_price}</h1>
-                        </div>
-                    )}
+    const coinData = (data) ? data.data : null;
+
+    if (data || isLoading) return (
+        <>
+            <div className="my-5 flex flex-col items-center justify-center gap-5 w-[80vw] mx-auto">
+                <div className="w-full bg-amber-600 flex py-4 px-2 font-semibold items-center justify-between">
+                    <div className="basis-[25%]">Symbol</div>
+                    <div className="basis-[15%]">Price</div>
+                    <div className="basis-[10%] text-center">24h PriceChange</div>
+                    <div className="basis-[20%]">Market Cap</div>
                 </div>
-            </>
-        )
-    }
-    if (error) {
-        console.log(error);
-
-        return (
-            <>
-                <div>Failed to load information try after some time...</div>
-            </>
-        )
-    }
+                <div className="flex flex-col w-[80vw] mx-auto">
+                    {isLoading && <div>Loading...</div>}
+                </div>
+                {
+                    coinData && coinData.map((coin) => {
+                        return (
+                            <div
+                                key={coin.id}
+                                className="w-full bg-transparent flex py-4 px-2 font-bold items-center justify-between cursor-pointer"
+                                onClick={() => navigate(`/coin_details/${coin.id}`)}
+                            >
+                                <div className="flex items-center justify-start gap-3 basis-[35%]">
+                                    <div className="w-[5rem] h-[5rem]">
+                                        <img src={coin.image} className="w-full h-full" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-3xl">{coin.name}</div>
+                                        <div className="text-xl">{coin.symbol}</div>
+                                    </div>
+                                </div>
+                                <div className="basis-[25%]">{coin.current_price}</div>
+                                <div className="basis-[20%]">{coin.price_change_24h}</div>
+                                <div className="basis-[20%]">{coin.market_cap}</div>
+                            </div>
+                        );
+                    })
+                }
+                {coinData &&
+                    <div className="flex justify-center items-center gap-6 m-4">
+                        <button
+                            disabled={page === 1}
+                            onClick={() => setPage(page - 1)}
+                            className="btn btn-secondary btn-wide text-2xl bg-amber-50"
+                        >
+                            Prev
+                        </button>
+                        <button
+                            onClick={() => setPage(page + 1)}
+                            className="btn btn-secondary btn-wide text-2xl bg-amber-300"
+                        >
+                            Next
+                        </button>
+                    </div>
+                }
+            </div>
+        </>
+    )
+    if (Error) return (
+        <h1 className="text-xl font-mono m-2">Something went wrong try again after sometime... /</h1>
+    )
 }
-
 export default CoinTable;
