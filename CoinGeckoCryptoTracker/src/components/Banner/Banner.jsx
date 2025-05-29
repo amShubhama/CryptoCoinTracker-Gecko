@@ -8,7 +8,7 @@ const Banner = () => {
       </div>
       <div className='absolute left-0 right-0 top-30 text-center'>
         <h1 className='text-4xl font-bold'>Crypto Tracker</h1>
-        <p className='text-sm'>Get all info regarding cryptocurrencies</p>
+        <p className=' mt-2 text-xl'>Get all info regarding <span className='uppercase text-bold font-mono text-xl text-amber-600'>cryptocurrencies</span></p>
       </div>
     </div>
   )

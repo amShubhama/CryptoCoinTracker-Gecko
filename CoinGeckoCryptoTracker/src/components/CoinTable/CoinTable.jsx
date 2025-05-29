@@ -5,19 +5,17 @@ import { useNavigate } from "react-router-dom";
 // import { CurrencyContext } from "../../context/CurrencyContext";
 import currencyStore from '../../state/store'
 function CoinTable() {
-    const [page, setPage] = useState(1);
+    //const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { currency } = currencyStore();
+    const { currency, page, setPage } = currencyStore();
     const { data, isLoading, isPending, isError, error } = useQuery({
         queryKey: ['coins', page, currency],
         queryFn: () => fetchCoinData(page, currency),
-        retry: 2,
-        retryDelay: 1000,
+        retry: false,
         cacheTime: 1000 * 60 * 2,
     });
-    const coinData = (data) ? data.data : null;
-
-    if (data || isLoading) return (
+    if (isError) return <div className="text-xl font-mono flex justify-center items-center text-center mt-[2rem]">You've exceeded the Rate Limit try again after 30s.. /</div>
+    return (
         <>
             <div className="my-5 flex flex-col items-center justify-center gap-5 w-[80vw] mx-auto">
                 <div className="w-full bg-amber-600 flex py-4 px-2 font-semibold items-center justify-between">
@@ -30,7 +28,7 @@ function CoinTable() {
                     {isLoading && <div>Loading...</div>}
                 </div>
                 {
-                    coinData && coinData.map((coin) => {
+                    data && data.map((coin) => {
                         return (
                             <div
                                 key={coin.id}
@@ -53,7 +51,7 @@ function CoinTable() {
                         );
                     })
                 }
-                {coinData &&
+                {data &&
                     <div className="flex justify-center items-center gap-6 m-4">
                         <button
                             disabled={page === 1}
@@ -72,9 +70,6 @@ function CoinTable() {
                 }
             </div>
         </>
-    )
-    if (Error) return (
-        <h1 className="text-xl font-mono m-2">Something went wrong try again after sometime... /</h1>
     )
 }
 export default CoinTable;

@@ -7,6 +7,13 @@ const store = create((set) => ({
             ...state,
             currency: newCurrency
         }
+    }),
+    page: 1,
+    setPage: (newPage) => set((state) => {
+        return {
+            ...state,
+            page: newPage
+        }
     })
 }));
 
