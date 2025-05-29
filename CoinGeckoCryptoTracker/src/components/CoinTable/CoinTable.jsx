@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 // import { CurrencyContext } from "../../context/CurrencyContext";
 import currencyStore from '../../state/store'
+import MyCodeLoader from "../ContentLoader/ContentLoader";
 function CoinTable() {
     //const [page, setPage] = useState(1);
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function CoinTable() {
                     <div className="basis-[20%]">Market Cap</div>
                 </div>
                 <div className="flex flex-col w-[80vw] mx-auto">
-                    {isLoading && <div>Loading...</div>}
+                    {isLoading && <MyCodeLoader />}
                 </div>
                 {
                     data && data.map((coin) => {
@@ -37,7 +38,7 @@ function CoinTable() {
                             >
                                 <div className="flex items-center justify-start gap-3 basis-[35%]">
                                     <div className="w-[5rem] h-[5rem]">
-                                        <img src={coin.image} className="w-full h-full" />
+                                        <img src={coin.image} className="w-full h-full" loading="lazy" />
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="text-3xl">{coin.name}</div>

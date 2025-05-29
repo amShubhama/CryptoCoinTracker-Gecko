@@ -1,16 +1,28 @@
 import { Route, Routes } from "react-router-dom";
-import CoinDetailsPage from "../../pages/CoinDetailsPage";
 import MainLayout from "../../pages/Layout";
-import Home from "../../pages/Home";
-
+import CustomErrorBoundary from "../CustomErrorBoundary/CustomErrorBoundary";
+import { lazy, Suspense } from "react";
+import MyCodeLoader from "../ContentLoader/ContentLoader";
+const Home = lazy(() => import('../../pages/Home'));
+const CoinDetailsPage = lazy(() => import('../../pages/CoinDetailsPage'));
 function Routing() {
     return (
-        <Routes>
-            <Route path="/" element={<MainLayout />}>
-                <Route index element={<Home />} />
-                <Route path="/coin_details/:id" element={<CoinDetailsPage />} />
-            </Route>
-        </Routes>
+        <CustomErrorBoundary>
+            <Routes>
+                <Route path="/" element={<MainLayout />}>
+                    <Route index element={
+                        <Suspense fallback={<MyCodeLoader />}>
+                            <Home />
+                        </Suspense>
+                    } />
+                    <Route path="/coin_details/:id" element={
+                        <Suspense fallback={<MyCodeLoader />}>
+                            <CoinDetailsPage />
+                        </Suspense>
+                    } />
+                </Route>
+            </Routes>
+        </CustomErrorBoundary>
     )
 }
 

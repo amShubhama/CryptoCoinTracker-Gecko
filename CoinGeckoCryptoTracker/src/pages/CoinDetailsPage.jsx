@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import fetchCoinDetails from "../services/fetchCoinDetails";
 import currencyStore from '../state/store'
+import MyCodeLoader from "../components/ContentLoader/ContentLoader";
 
 function CoinDetailsPage() {
     const { currency } = currencyStore();
@@ -13,7 +14,7 @@ function CoinDetailsPage() {
         cacheTime: 1000 * 60 * 2,
     });
     console.log(error);
-    if (isLoading) return <div className="text-xl font-mono mt-6">Loading... /</div>
+    if (isLoading) return <MyCodeLoader />
     if (isError) return <div className="text-xl font-mono flex justify-center items-center text-center mt-[2rem]">You've exceeded the Rate Limit try again after 30s.. / </div>
     return (
         <div className="flex flex-col md:flex-row ">
